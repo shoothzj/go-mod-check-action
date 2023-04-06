@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/pmezard/go-difflib/difflib"
 	"log"
 	"os"
 	"os/exec"
@@ -66,8 +67,29 @@ func main() {
 	// Compare the original and updated files
 	if string(originalGoMod) != string(updatedGoMod) || string(originalGoSum) != string(updatedGoSum) {
 		fmt.Println("go.mod or go.sum files have changed after running go mod tidy. Please commit the changes.")
+		printDiff("go.mod", string(originalGoMod), string(updatedGoMod))
+		printDiff("go.sum", string(originalGoSum), string(updatedGoSum))
 		os.Exit(1)
 	}
 
 	fmt.Println("Go mod check action completed successfully.")
+}
+
+func printDiff(filename, originalContent, updatedContent string) {
+	diff := difflib.UnifiedDiff{
+		A:        difflib.SplitLines(originalContent),
+		B:        difflib.SplitLines(updatedContent),
+		FromFile: "Original",
+		ToFile:   "Updated",
+		Context:  3,
+	}
+
+	diffStr, err := difflib.GetUnifiedDiffString(diff)
+	if err != nil {
+		log.Fatalf("Failed to generate diff: %v", err)
+	}
+
+	if diffStr != "" {
+		fmt.Printf("\nChanges detected in %s:\n\n%s\n", filename, diffStr)
+	}
 }
