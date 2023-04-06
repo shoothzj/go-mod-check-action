@@ -1,0 +1,10 @@
+# file system
+.DS_Store
+
+# ide
+.idea/**
+.vscode/**
+
+# Binaries for programs and plugins
+go-mod-check-action
+*.exe

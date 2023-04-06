@@ -1,0 +1,19 @@
+name: 'Go Mod Check Action'
+description: 'Check if go.mod and go.sum are properly updated and optionally prevent indirect dependency updates'
+inputs:
+  prohibitIndirectDepUpdate:
+    description: 'If true, the action will prohibit indirect dependency updates'
+    required: false
+    default: 'false'
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Install Go'
+      uses: actions/setup-go@v4
+      with:
+        go-version: '^1.19'
+    - name: 'Run Go Mod Check Action'
+      run: go run $GITHUB_ACTION_PATH/main.go
+      shell: bash
+      env:
+        PROHIBIT_INDIRECT_DEP_UPDATE: ${{ inputs.prohibitIndirectDepUpdate }}
