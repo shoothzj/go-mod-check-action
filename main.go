@@ -23,22 +23,14 @@ func main() {
 	}
 
 	if prohibitIndirectDepUpdate {
-		// Remove indirect blocks (except replace blocks)
+		// Remove indirect lines
 		lines := strings.Split(string(originalGoMod), "\n")
 		var cleanedGoMod []string
-		inIndirectBlock := false
 		for _, line := range lines {
-			if strings.HasPrefix(line, "require (") {
-				inIndirectBlock = true
+			if strings.HasSuffix(line, "// indirect") {
 				continue
 			}
-			if inIndirectBlock && strings.HasPrefix(line, ")") {
-				inIndirectBlock = false
-				continue
-			}
-			if !inIndirectBlock {
-				cleanedGoMod = append(cleanedGoMod, line)
-			}
+			cleanedGoMod = append(cleanedGoMod, line)
 		}
 		err = os.WriteFile("go.mod", []byte(strings.Join(cleanedGoMod, "\n")), 0644)
 		if err != nil {
