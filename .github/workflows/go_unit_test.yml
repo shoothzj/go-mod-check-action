@@ -1,4 +1,4 @@
-name: go mod check
+name: go unit test
 
 on:
   push:
@@ -9,14 +9,12 @@ on:
       - main
 
 jobs:
-  go_mod_check:
+  go_unit_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v4
         with:
           go-version: '1.18'
-      - name: Run Go Mod Check Action
-        uses: shoothzj/go-mod-check-action@main
-        with:
-          prohibitIndirectDepUpdate: 'true'
+      - name: Run coverage
+        run: go test ./... -race -coverprofile=coverage.out -covermode=atomic
