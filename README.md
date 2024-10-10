@@ -3,6 +3,10 @@
 This GitHub Action checks if your `go.mod` and `go.sum` files are properly updated and optionally prevents indirect
 dependency updates.
 
+## Requirements
+
+- Go 1.17+
+
 ## Features
 
 1. Runs `go mod tidy` to check if `go.mod` and `go.sum` files have any changes. If there are changes, the action fails.
