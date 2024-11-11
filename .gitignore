@@ -6,5 +6,6 @@
 .vscode/**
 
 # Binaries for programs and plugins
+go-mod-check
 go-mod-check-action
 *.exe
