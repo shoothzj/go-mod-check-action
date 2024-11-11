@@ -8,11 +8,11 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: 'Run Go Mod tidy'
-      run: cd $GITHUB_ACTION_PATH && go mod tidy
+    - name: 'Download binary'
+      run: wget https://github.com/shoothzj/go-mod-check-action/releases/download/latest/go-mod-check; chmod +x go-mod-check
       shell: bash
-    - name: 'Run Go Mod Check Action'
-      run: go run $GITHUB_ACTION_PATH/main.go
+    - name: 'Run Go Mod Check'
+      run: go-mod-check
       shell: bash
       env:
         PROHIBIT_INDIRECT_DEP_UPDATE: ${{ inputs.prohibitIndirectDepUpdate }}
