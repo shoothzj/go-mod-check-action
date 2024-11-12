@@ -9,7 +9,7 @@ runs:
   using: 'composite'
   steps:
     - name: 'Download binary'
-      run: wget https://github.com/shoothzj/go-mod-check-action/releases/download/latest/go-mod-check; chmod +x go-mod-check
+      run: wget -q https://github.com/shoothzj/go-mod-check-action/releases/download/latest/go-mod-check; chmod +x go-mod-check
       shell: bash
     - name: 'Run Go Mod Check'
       run: go-mod-check
